@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Main page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/kendo.all.min.js"></script>
+	<script>
+       $(document).ready(function() {
+    	  
+       });
+		function popup(){
+	        var url = "/user/userFoundinfo.do";
+	        var name = "POP_PWD";
+	        var option = "width = 480, height = 550, top = 100, left = 200, location = no, resizable = no;"
+	        window.open(url, name, option);
+	    }
+		$(document).ready(function(){
+		     var nickname = $("#usernickname").val();
+		     if(nickname != null){
+				$("#usernick").html(nickname+("님 환영합니다."));
+		     }
+		})
+   	</script>
+</head>
+<body class="bodyCss">
+<input type="hidden" id="userseq" th:if="${userSession != null}" th:value="${userSession[0].userseq}">
+<input type="hidden" id="userid" th:if="${userSession != null}" th:value="${userSession[0].userid}">
+<input type="hidden" id="usernickname" th:if="${userSession != null}" th:value="${userSession[0].usernickname}">
+
+	<div class="topCont">
+		 <a href="/board/Mainpage.do" onClick="">
+		 <img src="/images/1.jpg"></a>
+		<!-- 로그인 안되어있을때 -->
+		<div style="text-align:right" th:if="${userSession == null}">
+		 	<font face='나눔고딕'>
+			 	<a href="/user/userLogin.do">
+			 	<button class=btn>로그인</button></a>
+			 	<a href="/user/userSignUp.do">
+			 	<button class=btn>회원가입</button></a>
+			 	<a href="#" onclick="popup()">
+			 	<button class=btn>ID/PW찾기</button></a>
+		 	</font>
+		 </div>
+		 <!-- 로그인 했을때 -->
+		 <div style="text-align:right" th:if="${userSession != null}">
+		 	<font face='나눔고딕'>
+		 		<a href="/board/Mainpage.do" onClick="">
+					<img src="/images/user.jpg" width="50">
+				</a>
+				<label id="usernick" style="margin-right:30px">환영합니다.</label>
+			 	<a href="/user/Logout.do">
+			 	<button class=btn>로그아웃</button></a>
+			 	<a href="/user/Myinfo.do" onclick="popup()">
+			 	<button class=btn>내정보</button></a>
+		 	</font>
+		 </div>
+	 </div>
+	 <div class="container">
+	 	<div class="row">
+	 		<div class="col-sm dr" style="margin-right:-10px">
+	 			<div style="text-align: right;">
+			       	<select Name="Name_of_list_box" Size="Number_of_options" class="sm-css" style="position: relative;top: 2px;">  
+					  	<option> 내용 </option>  
+					  	<option> 작성일 </option>  
+					  	<option> 작성자 </option>  
+					</select>
+					<input type="text" class="inputtext sm-css" style="width:300px" placeholder="내용을 입력하세요" id="text3">
+					<a href="/board/Mainpage" onClick="" >
+					<img class="searchImg" src="/images/2.png"></a>
+				</div>	
+			</div>
+		</div>
+		<div class="col-sm dr">
+		 	<div style="text-align:right" th:if="${userSession != null}">
+			 	<font face='나눔고딕'>
+				 	<a href="/board/openBoardWrite.do">
+				 	<button type="button" class=btn>글쓰기</button></a>
+				 	<button class="btn" type="button">정렬▲▼</button>
+		 	</font>
+		 </div>
+			<div class="col-sm dr" style="margin-right:-10px" th:if="${userSession == null}">
+				<div style="text-align:right">
+					<button class="btn" type="button">정렬▲▼</button>
+				</div>
+			</div>
+		</div>
+		<div class="row rowCont">
+			<div class="col dr" style="width:90%">
+				<div style="width:100%;height:60%">
+					<div id="cont">
+						<div id="mainCont">
+							<div id="contUser">
+								<a href="/board/Mainpage." onClick="">
+									<img src="/images/2.jpg">
+								</a>
+							</div>
+							<div id="contImg" style="float: left;">
+								<img src="/images/img03.jpg" width="100"/>
+							</div>
+						</div>
+						<div id="subCont">
+							<span>
+								test5<br/>test6<br/>test7
+							</span>
+						</div>
+					</div>
+					<div class="contBottom">
+						작성자 작성일
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row rowCont">
+			<div class="col dr" style="width:90%">
+				<div style="width:100%;height:60%">
+					<div id="cont">
+						<div id="mainCont">
+							<div id="contUser">
+								<a href="/board/Mainpage." onClick="">
+									<img src="/images/2.jpg">
+								</a>
+							</div>
+							<div id="contImg" style="float: left;">
+								<img src="/images/img04.jpg" width="100"/>
+							</div>
+						</div>
+						<div id="subCont">
+							<span>
+								test<br/>test3<br/>test4
+							</span>
+						</div>
+					</div>
+					<div class="contBottom">
+						작성자 작성일
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row rowCont">
+			<div class="col dr" style="width:90%">
+				<div style="width:100%;height:60%">
+					<div id="cont">
+						<div id="mainCont">
+							<div id="contUser">
+								<a href="/board/Mainpage." onClick="">
+									<img src="/images/2.jpg">
+								</a>
+							</div>
+							<div id="contImg" style="float: left;">
+								<img src="/images/img03.jpg" width="100"/>
+							</div>
+						</div>
+						<div id="subCont">
+							<span>
+								test<br/>test1<br/>test3
+							</span>
+						</div>
+					</div>
+					<div class="contBottom">
+						작성자 작성일
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm dr" style="text-align:center">
+				<button class="dr1" type="button">1</button>
+				<button class="dr1" type="button">2</button>
+				<button class="dr1" type="button">3</button>
+				<button class="dr1" type="button">4</button>
+				<button class="dr1" type="button">5</button>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Main page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/kendo.all.min.js"></script>
+	<script type="text/javascript">
+		function popup(){
+	        var url = "/user/userFoundinfo.do";
+	        var name = "POP_PWD";
+	        var option = "width = 480, height = 550, top = 100, left = 200, location = no, resizable = no;"
+	        window.open(url, name, option);
+	    }
+		function fnLogin(){
+			
+			var userid = $("#userid").val();
+			var userpwd = $("#userpwd").val();
+			
+			$.ajax({
+				type: "POST",
+				url : "/user/Login.do",
+				data: {
+					userid : userid,
+					userpwd : userpwd
+				},
+				success : function(data, status, xhr) {
+					
+					if(data.result > 0){
+						window.location.href = "/board/Mainpage.do";
+					}else{
+						alert("회원정보가 일치하지 않습니다.");
+					}
+					
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					alert(jqXHR.responseText); 
+				} 
+			});
+		}
+	</script>
+</head>
+<body class="bodyCss">
+	<div class="topCont">
+		 <a href="/board/Mainpage.do" onClick="">
+		 <img src="/images/1.jpg"></a>
+	 </div>
+	 <div class="container">
+
+		<div class="row" style="margin-top:20%">
+			<div class="col-sm dr" style="margin-right:-10px">
+	 			<div style="text-align: center;">
+	 				<table class="board_detail" style="text-align: center;">
+	 				<colgroup>
+		                <col width="33%"/>
+		                <col width="*"/>
+		            </colgroup>
+	 					<tr>
+	 						<th>ID</th>
+	 						<td><input type="text" id="userid" name="userid" style="width:40%">
+	 						</td>
+	 					</tr>
+	 					<tr>
+	 						<th>PW</th>
+	 						<td><input type="password" id="userpwd" name="userpwd"style="width:40%"></td>
+	 					</tr>
+	 				</table>
+	 				
+	 			</div>
+	 		</div>
+		</div>
+		<div class="row">
+			<div class="col-sm dr" style="margin-top:20px; margin-left:-5px">
+	 			<div style="text-align: center;">
+	 				<button type="button" onclick="fnLogin()" class=btn style="height:30px;font-size: 12px;padding: 0px; margin-right:30px;">Log in</button>
+	 			</div>
+	 		</div>
+		</div>
+		<div class="row">
+			<div class="col-sm dr" style="margin-left:-20px">
+	 			<div style="text-align: center;">
+	 				<a href="/user/userSignUp.do">
+	 				<button class=btn style="height:30px;font-size: 12px;padding: 0px; margin-right:30px;">회원가입</button>
+	 				</a>
+	 				<a href="#" onclick="popup()">
+	 				<button class=btn style="height:30px;font-size: 12px;padding: 0px;">ID/PW찾기</button>
+	 				</a>
+	 			</div>
+	 		</div>
+		</div>
+	</div>
+</body>
+</html>

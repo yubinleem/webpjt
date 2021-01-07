@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.UserMapper">
+
+	<resultMap type="HashMap" id="userListMap">
+      <id column="USERSEQ" property="userseq" />
+      <id column="USERID" property="userid" />
+      <id column="USERPWD" property="userpwd" />
+      <id column="USERNICKNAME" property="usernickname" />
+      <id column="USEREMAIL" property="useremail" />
+      <id column="REGIST_ID" property="regist_id" />
+      <id column="REGIST_DT" property="regist_dt" />
+      <id column="DELETE_YN" property="delete_yn" />
+   </resultMap>
+
+    <select id="selectUserList" resultType="com.example.demo.dto.UserDto">
+        <![CDATA[
+        SELECT
+        	USERSEQ,
+        	USERID,
+        	USERPWD,
+        	USERNICKNAME,
+        	USEREMAIL,
+        	REGIST_ID,
+        	REGIST_DT,
+        	DELETE_YN
+        FROM TB_USER
+        WHERE DELETE_YN = 'N'
+        ]]>
+    </select>
+    
+    <select id="doubleChk" parameterType="com.example.demo.dto.UserDto" resultType="INTEGER">
+        <![CDATA[
+        	SELECT
+        		 COUNT(1) 
+        	FROM tb_user
+        	WHERE USERID = #{userid}
+        	AND DELETE_YN = 'N'
+        ]]>
+    </select>
+    <select id="emaildoubleChk" parameterType="com.example.demo.dto.UserDto" resultType="INTEGER">
+        <![CDATA[
+        	SELECT
+        		 COUNT(1) 
+        	FROM tb_user
+        	WHERE USEREMAIL = #{useremail}
+        	AND DELETE_YN = 'N'
+        ]]>
+    </select>
+    
+    <select id="Login" parameterType="com.example.demo.dto.UserDto" resultType="INTEGER">
+        <![CDATA[
+        	SELECT
+        		 COUNT(1) 
+        	FROM tb_user
+        	WHERE USERID = #{userid}
+        	AND USERPWD = #{userpwd}
+        	AND DELETE_YN = 'N'
+        ]]>
+    </select>
+    
+    <select id="userLoginSession" parameterType="hashMap" resultMap="userListMap">
+        <![CDATA[
+	        SELECT
+	        	USERSEQ,
+	        	USERID,
+	        	USERPWD,
+	        	USERNICKNAME,
+	        	USEREMAIL,
+	        	REGIST_ID,
+	        	REGIST_DT,
+	        	DELETE_YN
+	        FROM tb_user
+	        WHERE DELETE_YN = 'N'
+	        AND USERID = #{userid}
+        ]]>
+    </select>
+    
+    <select id="foundid" parameterType="com.example.demo.dto.UserDto" resultType="String">
+        <![CDATA[
+        	SELECT
+        	USERID 
+        	FROM tb_user
+        	WHERE USEREMAIL = #{useremail}
+        	AND DELETE_YN = 'N'
+        ]]>
+    </select>
+    
+    <insert id="signupUser" parameterType="com.example.demo.dto.UserDto">
+        <![CDATA[
+            INSERT INTO TB_USER
+            (
+		       	USERSEQ,
+		       	USERID,
+		       	USERPWD,
+		       	USERNICKNAME,
+		       	USEREMAIL,
+		       	REGIST_ID,
+		       	REGIST_DT,
+		       	DELETE_YN
+            ) 
+            VALUES 
+            (
+            	(SELECT IFNULL(MAX(USERSEQ),0)+1 FROM TB_USER A),
+            	#{userid}, 
+                #{userpwd},
+                #{usernickname},
+                #{useremail},  
+                1,
+                NOW(),
+                'N'
+            )
+        ]]>
+    </insert>
+        
+</mapper>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Main page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/kendo.all.min.js"></script>
+	<script>
+       $(document).ready(function() {
+       });
+       
+       function fnfoundid() {
+   		
+		var useremail = $("#useremail").val();
+		
+			$.ajax({
+				type: "POST",
+				url : "/user/foundid.do",
+				data: {
+					useremail : useremail
+				},
+				success : function(data, status, xhr) {
+					
+					if(data.result != null){
+						$("#idtext").html("회원님의 아이디는 : <span style='color:red;font-weight:bold'>"+data.result+"</span>입니다.");
+					}else{
+						alert("회원정보가 일치하지 않습니다.");
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					alert(jqXHR.responseText); 
+				} 
+			});
+		}
+       function fnfoundpwd(){
+    	   var useremail = $("#useremail").val();
+    	   var userid = $("#userid").val();
+			$.ajax({
+				type: "POST",
+				url : "/user/foundpwd.do",
+				data: {
+					useremail : useremail
+					userid : userid
+				},
+				success : function(data, status, xhr) {
+					
+					if(data.result != null){
+						$("#pwdtext").html("회원님의 e-mail로 임시 비밀번호가 발송되었습니다.");
+					}else{
+						alert("회원정보가 일치하지 않습니다.");
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					alert(jqXHR.responseText); 
+				} 
+			});
+       }
+       
+       function fnClose(){
+    	   window.close();
+       }
+   	</script>
+</head>
+<body class="bodyCss">
+	<div class="topCont">
+		<label>회원정보 찾기</label>
+		<div style="text-align:right">
+		 </div>
+	 </div>
+	 <div class="row rowCont" style="margin-top: 15px">
+		<div class="col dr" style="width:90%">
+			<div style="width:100%;height:60%">
+				<div id="cont">
+					<div id="subCont">
+						<span>
+							ID 찾기
+						</span>
+					</div>
+				</div>
+				<div style="width: 94%;float: left;margin-top:40px">
+					<label style="margin-right:20px">E-Mail</label>
+					<input type="text" id="useremail" name="useremail" style="width:30%">
+					<button type="button" class="btn" onclick="fnfoundid()" style="height:30px; margin-left:30px; font-size: 12px; padding: 0px;">찾 기</button>
+				</div>
+				<div style="width:100%;float: left;margin-top: 20px;margin-left: 55px;">
+					<span id="idtext"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row rowCont" style="margin-top:50px">
+		<div class="col dr" style="width:90%">
+			<div style="width:100%;height:60%">
+				<div id="cont">
+					<div id="subCont">
+						<span>
+							PW 찾기
+						</span>
+					</div>
+				</div>
+				<div style="width: 94%;float: left;margin-top:40px">
+					<div>
+						<label style="margin-right:48px">ID</label>
+						<input type="text"  id="userid" name="userid" style="width:30%">
+					</div>
+					<div>
+						<label style="margin-right:20px">E-Mail</label>
+						<input type="text"  id="useremail" name="useremail" style="width:30%">
+						<button type="button" class="btn" onclick="fnfoudpwd()"style="height:30px; margin-left:30px; font-size: 12px; padding: 0px;">찾 기</button>
+					</div>
+				</div>
+				<div style="width:100%;float: left;margin-top: 20px;margin-left: 55px;">
+					<span id="pwdtext"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm dr" style="margin-right:-10px">
+ 			<div style="text-align: center;">
+ 				<button type="button" onclick="fnClose()" class=btn style="height:30px;font-size: 12px;padding: 0px;">닫기</button>
+ 			</div>
+ 		</div>
+	</div>
+</body>
+</html>

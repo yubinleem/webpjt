@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Main page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/kendo.all.min.js"></script>
+	<script>
+       $(document).ready(function() {
+       });
+   	</script>
+</head>
+<body class="bodyCss">
+	<div class="topCont">
+		 <a href="/board/Mainpage.do" onClick="">
+		 <img src="/images/1.jpg"></a>
+		<div style="text-align:right">
+		 	<font face='나눔고딕'>
+				<a href="/board/Mainpage.do" onClick="">
+					<img src="/images/user.jpg" width="50">
+				</a>
+				<label>*님 환영합니다</label>
+			 	<a href="/user/userSignUp.do" class="btn" style="margin-left:50px">내정보</a>
+			 	<a href="" class="btn">로그아웃</a>
+		 	</font>
+		 </div>
+	 </div>
+	 <div class="container2" style="margin-top: 50px;">
+		<div class="row rowCont">
+			<div class="col dr" style="width:90%">
+				<div style="width:100%;height:60%">
+					<div id="cont">
+						<div>
+							<div id="contUser">
+								<a href="/board/Mainpage.do" onClick="">
+									<img src="/images/2.jpg">
+								</a>
+							</div>
+							<div style="text-align: right;">
+								<button class="btn" style="height:30px; font-size: 12px; padding: 0px;">사진 첨부</button>
+							</div>
+							<div style="margin-top: 20px;margin-bottom: 10px">
+								<textarea style="width:97%;height: 400px" placeholder="내용"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col dr" style="text-align:center;">
+				<button class="btn" style="height:30px; margin-right:10px; margin-left: 30px; font-size: 12px; padding: 0px;">게시</button>
+				<button class="btn" style="height:30px; font-size: 12px; margin-left: 20px; padding: 0px;">취소</button>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Main page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/kendo.all.min.js"></script>
+	<script type="text/javascript">
+		
+	</script>
+</head>
+<body class="bodyCss">
+	<div class="topCont">
+		 <a href="/board/Mainpage.do" onClick="">
+		 <img src="/images/1.jpg"></a>
+	 </div>
+	 <div class="container">
+		<div class="row">
+			<div class="col-sm dr" style="margin-right:-10px">
+	 			<div style="text-align: center;">
+	 				<img src="/images/user.jpg" style=" border-radius:50%; border:1px solid;">
+	 				<button class="btn" style="margin-top:15%; font-size: 12px;padding: 0px; height:30px; width:50px">변경</button>
+	 				
+	 			</div>
+	 		</div>
+		</div>
+		<div class="row">
+			<div class="col-sm dr" style="margin-right:-10px">
+	 			<div style="text-align: center;">
+	 				<table class="board_detail" style="text-align: center;">
+	 				<colgroup>
+		                <col width="33%"/>
+		                <col width="*"/>
+		            </colgroup>
+	 					<tr>
+	 						<th>ID</th>
+	 						<td><input type="text" style="width:40%">
+	 						<button class="btn" style="margin-left:30px; font-size:12px;padding: 0px; height:30px; width:50px">변경</button>
+	 						</td>
+	 					</tr>
+	 					<tr>
+	 						<th>PW</th>
+	 						<td><input type="text" style="width:40%">
+	 						<label style="margin-left:30px;">PW확인</label>
+	 						</td>
+	 					</tr>
+	 					<tr>
+	 						<th>PW</th>
+	 						<td><input type="text" style="width:40%">
+	 						<button class="btn" style="margin-left:30px; font-size: 12px;padding: 0px; height:30px; width:50px">변경</button>
+	 						</td>
+	 					</tr>
+	 				</table>
+	 				
+	 			</div>
+	 		</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm dr" >
+	 			<div style="text-align: center;">
+	 				<a href="">
+	 				<button class=btn style="height:30px;font-size: 12px;padding: 0px; margin-right:30px;">정보수정</button>
+	 				</a>
+	 				<a href="/board/Mainpage.do">
+	 				<button class=btn style="height:30px;font-size: 12px;padding: 0px;">취소</button>
+	 				</a>
+	 			</div>
+	 		</div>
+		</div>
+	</div>
+</body>
+</html>

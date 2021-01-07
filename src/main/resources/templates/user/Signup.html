@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Main page</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+<link rel="stylesheet" th:href="@{/css/style.css}" />
+<script src="/js/jquery.min.js"></script>
+<script src="/js/kendo.all.min.js"></script>
+<script type="text/javascript">
+	function fnSignup() {
+
+		var usernickname = $("#usernickname").val();
+		var userid = $("#userid").val();
+		var userpwd = $("#userpwd").val();
+		var userpwdChk = $("#userpwdChk").val();
+		var useremail = $("#useremail").val();
+		var userauthKey = $("#userauthKey").val();
+		var pwdChk = $("#pwdChk").val();
+		var authChk = $("#authChk").val();
+		var doubleChk = $("#doubleChk").val();
+		if (usernickname == '') {
+			alert("닉네임을 입력하세요");
+			return false;
+		}
+		if (userid == '') {
+			alert("아이디를 입력하세요");
+			return false;
+		}
+		if (doubleChk == "false") {
+			alert("ID중복확인을 해주세요.");
+			return false;
+		}
+		if (userpwd == '') {
+			alert("패스워드를 입력하세요");
+			return false;
+		}
+		if (userpwdChk == '') {
+			alert("패스워드확인을 입력하세요");
+			return false;
+		}
+		if (useremail == '') {
+			alert("이메일을 입력하세요");
+			return false;
+		}
+		if (userauthKey == '') {
+			alert("인증번호를 입력하세요");
+			return false;
+		}
+		if (pwdChk == "false") {
+			alert("패스워드가 일치하지 않습니다.");
+			return false;
+		}
+		if (authChk == "false") {
+			alert("인증번호가 일치하지 않습니다.");
+			return false;
+		}
+		alert("회원가입이 완료되었습니다.")
+		document.frm.action = "/user/signupUser.do";
+		document.frm.submit();
+	}
+
+	function fnpwdChk(e) {
+		var userpwd = $("#userpwd").val();
+		var userpwdChk =$("#userpwdChk").val();
+		var value = e.value;
+		
+		if (userpwd != value) {
+			$("#passText").html("비밀번호가 일치하지 않습니다.");
+			$("#pwdChk").val("false");
+		} else if (userpwd == userpwdChk){
+			$("#passText").html("비밀번호가 일치합니다.");
+			$("#pwdChk").val("true");
+		} else if (userpwd != userpwdChk){
+			if(userpwdChk == ""){
+				$("#passText").html("");
+				$("#pwdChk").val("false");
+			}
+			else{
+			$("#passText").html("비밀번호가 일치하지 않습니다.");
+			$("#pwdChk").val("false");
+			}
+		}
+	}
+	
+
+	function fndoubleChk() {
+
+		var userid = $("#userid").val();
+
+		$.ajax({
+			type : "POST",
+			url : "/user/doubleChk.do",
+			data : {
+				userid : userid
+			},
+			success : function(data, status, xhr) {
+
+				if (data.result > 0) {
+					alert("이미 사용중인 ID입니다.");
+					$("#doubleChk").val("false");
+				} else {
+					alert("사용가능한 ID입니다.");
+					$("#doubleChk").val("true");
+				}
+
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				alert(jqXHR.responseText);
+			}
+		});
+	}
+	
+	function fnmailsend() {
+		var email = $("#useremail").val();
+		var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+		
+		if (filter.test(email)){} 
+		else {
+			alert("이메일 형식이 아닙니다. 다시 입력해 주세요.")
+			return false;
+		}
+		
+		$.ajax({
+			type : "POST",
+			url : "/user/foundemail.do",
+			data : {
+				email : email
+			},
+			success : function(data, status, xhr) {
+
+				if (data.result > 0) {
+					alert("이미 사용중인  email입니다.");
+					$("#emaildoubleChk").val("false");
+					return false;
+				} 
+				else{
+					$.ajax({
+						type : "POST",
+						url : "/mail",
+						data : {
+							email : email,
+							type  : "signup"
+						},
+						success : function(data, status, xhr) {
+								$("#authkey").val(data.authkey);
+								alert("메일이 전송되었습니다.");
+						},
+						error : function(jqXHR, textStatus, errorThrown) {
+							alert(jqXHR.responseText);
+						}
+					});
+					
+				}
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				alert(jqXHR.responseText);
+			}
+		});
+	}
+
+	function fnauthKey(e) {
+		var userauthKey = $("#userauthKey").val();
+		var authKey = $("#authkey").val();
+		var value = e.value;
+		if (authKey != value){
+			$("#authText").html("인증번호가 일치하지 않습니다.");
+			$("#authChk").val("false");
+		}else if(authKey == userauthKey){
+			$("#authText").html("인증번호가 일치합니다.")
+			$("#authChk").val("true");
+		}else{
+			$("#authText").html("인증번호가 일치하지 않습니다.");
+			$("#authChk").val("false");
+		}
+		
+	}
+	
+	
+</script>
+</head>
+<body class="bodyCss2">
+<input type="hidden" id="authkey">
+	<form id="frm" name="frm" method="post">
+		<input type="hidden" id="pwdChk">
+		<input type="hidden" id="doubleChk" value="false">
+		<input type="hidden" id="authChk">
+		
+		<div class="topCont">
+			<a href="/board/Mainpage.do" onClick=""> <img src="/images/1.jpg"></a>
+		</div>
+		<div class="container">
+			<div class="row" style="margin-left:20px">
+				<div class="col-sm dr">
+					<div style="text-align: center;">
+						<img src="/images/user.jpg"
+							style="border-radius: 50%; border: 1px solid;">
+						<button class="btn"
+							style="margin-top: 15%; font-size: 12px; padding: 0px; height: 30px; width: 50px">변경</button>
+					</div>
+				</div>
+			</div>
+			<div class="row"  style="margin-left:31%; width:33%">
+				<div class="col-sm dr" style="margin-right: -10px;">
+					<div style="text-align: center;">
+						<div class="input-group mb-3">
+							<input type="text" class="form-control" id="usernickname" name="usernickname" placeholder="닉네임"></input>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row"  style="margin-left:31%; width:34.5%">
+				<div class="col-sm dr" style="margin-right: -10px;">
+					<div style="text-align: center;">
+						<div class="input-group mb-3">
+							<input type="text" id="userid" name="userid" class="form-control" placeholder="ID" aria-describedby="button-addon2"></input>
+							<div class="input-group-append">
+								<button class="btn btn-outline-secondary" type="button" id="button-addon2"
+								onclick="fndoubleChk()" style="margin-top:-4px;">중복확인</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row"  style="margin-left:31%; width:33%">
+				<div class="col-sm dr" style="margin-right: -10px;">
+					<div style="text-align: center;">
+						<div class="input-group mb-3">
+							<input type="password" id="userpwd" name="userpwd"class="form-control" placeholder="PW" onkeyup="fnpwdChk(this)"></input>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row"  style="margin-left:31%; width:33%">
+				<div class="col-sm dr" style="margin-right: -10px;">
+					<div style="text-align: center;">
+						<div class="input-group mb-3">
+							<input type="password" id="userpwdChk" name="userpwdChk" class="form-control" placeholder="PW확인"
+							onkeyup="fnpwdChk(this)" aria-describedby="passText"></input>
+							<span class="input-group-text" id="passText"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row"  style="margin-left:31%; width:34.5%">
+				<div class="col-sm dr" style="margin-right: -10px;">
+					<div style="text-align: center;">
+						<div class="input-group mb-3">
+							<input type="email" class="form-control" id="useremail" name ="useremail" placeholder="Email" aria-describedby="button-addon2"></input>
+							<div class="input-group-append">
+								<button class="btn btn-outline-secondary" type="button" id="button-addon2" 
+								onclick="fnmailsend()"style="margin-top:-4px;">메일전송</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row"  style="margin-left:31%; width:33%">
+				<div class="col-sm dr" style="margin-right: -10px;">
+					<div style="text-align: center;">
+						<div class="input-group mb-3">
+							<input type="text" class="form-control" id="userauthKey" name="userauthKey" placeholder="인증번호"
+							onkeyup="fnauthKey(this)" aria-describedby="authText"></input>
+							<span class="input-group-text" id="authText"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm dr" style="margin-right: -10px">
+					<div style="text-align: center;">
+
+						<button type="button" class=btn onclick="fnSignup()"
+							style="height: 40px; font-size: 12px; padding: 0px; margin-right: 30px;">회원가입</button>
+						<a href="/board/Mainpage.do">
+							<button type="button" class=btn
+								style="height: 40px; font-size: 12px; padding: 0px;">가입취소</button>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</body>
+</html>
