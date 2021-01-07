@@ -9,7 +9,14 @@ public class UserDto {
 	private int registId;
 	private String deleteYn;
 	private String useremail;
-
+	private String temporary;
+	
+	public String gettemporary() {
+		return temporary;
+	}
+	public void settemporary(String temporary) {
+		this.temporary = temporary;
+	}
 	public String getUseremail() {
 		return useremail;
 	}

@@ -56,6 +56,10 @@ public class UserServiceImpl implements UserService{
     public String foundpwd(UserDto user) throws Exception{
     	return userMapper.foundpwd(user);
     }
+    @Override
+    public String pwdchange(UserDto user) throws Exception{
+    	return userMapper.pwdchange(user);
+    }
     
     @Override
     public List<HashMap<String, Object>> userLoginSession(Map vParam) throws Exception{

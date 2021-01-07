@@ -14,7 +14,7 @@
        
        function fnfoundid() {
    		
-		var useremail = $("#useremail").val();
+		var useremail = $("#useremail1").val();
 		
 			$.ajax({
 				type: "POST",
@@ -28,6 +28,7 @@
 						$("#idtext").html("회원님의 아이디는 : <span style='color:red;font-weight:bold'>"+data.result+"</span>입니다.");
 					}else{
 						alert("회원정보가 일치하지 않습니다.");
+						$("#idtext").html("등록되지 않은 email입니다.");
 					}
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
@@ -36,27 +37,24 @@
 			});
 		}
        function fnfoundpwd(){
-    	   var useremail = $("#useremail").val();
+    	   var email = $("#useremail2").val();
     	   var userid = $("#userid").val();
-			$.ajax({
-				type: "POST",
-				url : "/user/foundpwd.do",
-				data: {
-					useremail : useremail
-					userid : userid
-				},
-				success : function(data, status, xhr) {
-					
-					if(data.result != null){
-						$("#pwdtext").html("회원님의 e-mail로 임시 비밀번호가 발송되었습니다.");
-					}else{
-						alert("회원정보가 일치하지 않습니다.");
+				$.ajax({
+					type : "POST",
+					url : "/mail",
+					data : {
+						email : email,
+						type  : "foundpwd"
+					},
+					success : function(data, status, xhr) {
+						$("#temporary").val(data.temporary);
+						alert("메일로 임시비밀번호가 전송되었습니다.");
+						$("#pwdtext").html("회원님의 Email로 임시 PW가 전송되었습니다.");
+					},
+					error : function(jqXHR, textStatus, errorThrown) {
+						alert(jqXHR.responseText);
 					}
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					alert(jqXHR.responseText); 
-				} 
-			});
+				});
        }
        
        function fnClose(){
@@ -65,6 +63,7 @@
    	</script>
 </head>
 <body class="bodyCss">
+<input type="hidden" id=temporary>
 	<div class="topCont">
 		<label>회원정보 찾기</label>
 		<div style="text-align:right">
@@ -82,7 +81,7 @@
 				</div>
 				<div style="width: 94%;float: left;margin-top:40px">
 					<label style="margin-right:20px">E-Mail</label>
-					<input type="text" id="useremail" name="useremail" style="width:30%">
+					<input type="text" id="useremail1" name="useremail1" style="width:30%">
 					<button type="button" class="btn" onclick="fnfoundid()" style="height:30px; margin-left:30px; font-size: 12px; padding: 0px;">찾 기</button>
 				</div>
 				<div style="width:100%;float: left;margin-top: 20px;margin-left: 55px;">
@@ -108,8 +107,8 @@
 					</div>
 					<div>
 						<label style="margin-right:20px">E-Mail</label>
-						<input type="text"  id="useremail" name="useremail" style="width:30%">
-						<button type="button" class="btn" onclick="fnfoudpwd()"style="height:30px; margin-left:30px; font-size: 12px; padding: 0px;">찾 기</button>
+						<input type="text"  id="useremail2" name="useremail2" style="width:30%">
+						<button type="button" class="btn" onclick="fnfoundpwd()"style="height:30px; margin-left:30px; font-size: 12px; padding: 0px;">찾 기</button>
 					</div>
 				</div>
 				<div style="width:100%;float: left;margin-top: 20px;margin-left: 55px;">

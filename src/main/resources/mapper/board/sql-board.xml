@@ -5,11 +5,9 @@
 
 	<resultMap type="HashMap" id="boardListMap">
       <id column="BOARDSEQ" property="boardseq" />
-      <id column="TITLE" property="title" />
       <id column="CONTENT" property="content" />
       <id column="REGIST_DT" property="regist_dt" />
       <id column="REGIST_ID" property="regist_id" />
-      <id column="HITS" property="hits" />
       <id column="DELETE_YN" property="delete_yn" />
    </resultMap>
 
@@ -17,11 +15,9 @@
         <![CDATA[
         SELECT
         	BOARDSEQ,
-        	TITLE,
         	CONTENT,
         	REGIST_DT,
         	REGIST_ID,
-        	HITS,
         	DELETE_YN
         FROM TB_LIST
         WHERE DELETE_YN = 'N'	
@@ -32,21 +28,17 @@
             INSERT INTO TB_LIST
             (
 		       	BOARDSEQ,
-		       	TITLE,
 		       	CONTENT,
 		       	REGIST_DT,
 		       	REGIST_ID,
-		       	HITS,
 		       	DELETE_YN
             ) 
             VALUES 
             (
             	(SELECT IFNULL(MAX(BOARDSEQ),0)+1 FROM TB_LIST A),
-            	#{title}, 
                 #{content}, 
                 NOW(), 
                 1,
-                0,
                 'N'   
             )
         ]]>
@@ -55,11 +47,9 @@
         <![CDATA[
             SELECT
                 BOARDSEQ,
-	        	TITLE,
 	        	CONTENT,
 	        	REGIST_DT,
 	        	REGIST_ID,
-	        	HITS
             FROM
                 tb_list
             WHERE
@@ -80,7 +70,6 @@
     <update id="updateBoard" parameterType="com.example.demo.dto.BoardDto">
         <![CDATA[
             UPDATE tb_list SET 
-                title = #{title},
                 content = #{content},
                 REGIST_DT = Now(),
                 REGIST_ID = 1
@@ -99,18 +88,5 @@
         ]]>
     </update>
     
-    <select id="selectBoardList2" resultMap="boardListMap">
-        <![CDATA[
-        SELECT
-        	BOARDSEQ,
-        	TITLE,
-        	CONTENT,
-        	DATE_FORMAT(REGIST_DT, '%Y-%m-%d %H:%i:%S') REGIST_DT,
-        	REGIST_ID,
-        	HITS,
-        	DELETE_YN
-        FROM TB_LIST
-        WHERE DELETE_YN = 'N'	
-        ]]>
-    </select>
+
 </mapper>

@@ -1,10 +1,7 @@
 package com.example.demo.mapper;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.mail.MessagingException;
 
 import org.apache.ibatis.annotations.Mapper;
 

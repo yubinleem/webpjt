@@ -82,7 +82,12 @@ public class UserController {
     	Map vMap = new HashMap();
     	String email = request.getParameter("email");
     	String type = request.getParameter("type");
-       	vMap.put("authkey",mailsend.sendMail(email,type));
+    	if (type=="sighup") {
+    		vMap.put("authkey",mailsend.sendMail(email,type));
+    	}else {
+    		vMap.put("temporary",mailsend.sendMail(email,type));
+    	}
+    	//String temporary = request.getParameter(temporary);
        	return vMap;
     }
 
@@ -151,19 +156,6 @@ public class UserController {
     	
         return vParm;
     }
-    /*
-    @RequestMapping("/user/foundpwd.do")
-    @ResponseBody
-    public Map foundpwd(UserDto user) throws Exception{
-    	
-    	Map vParm = new HashMap();
-    	
-    	String type = request.getParameter("type");
-       	vMap.put("authkey",mailsend.sendMail(email,type));
-    	
-        return vParm;
-    }
-    */
     
 }
 

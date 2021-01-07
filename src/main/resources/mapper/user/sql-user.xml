@@ -48,6 +48,13 @@
         	AND DELETE_YN = 'N'
         ]]>
     </select>
+    <select id="pwdchange" parameterType="com.example.demo.dto.UserDto">
+        <![CDATA[
+        	UPDATE tb_user
+        	SET userpwd = #{temporary}
+        	WHERE useremail = #{useremail}
+        ]]>
+    </select>
     
     <select id="Login" parameterType="com.example.demo.dto.UserDto" resultType="INTEGER">
         <![CDATA[

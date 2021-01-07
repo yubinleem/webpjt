@@ -19,6 +19,7 @@ public interface UserMapper {
 	String foundid(UserDto user) throws Exception;
 	Integer emaildoubleChk(UserDto user) throws Exception;
 	String foundpwd(UserDto user) throws Exception;
+	String pwdchange(UserDto user) throws Exception;
 	List<HashMap<String, Object>> userLoginSession(Map vParam) throws Exception;
 }
 

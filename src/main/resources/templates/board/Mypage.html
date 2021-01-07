@@ -10,15 +10,6 @@
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/kendo.all.min.js"></script>
 	<script>
-       $(document).ready(function() {
-    	  
-       });
-		function popup(){
-	        var url = "/user/userFoundinfo.do";
-	        var name = "POP_PWD";
-	        var option = "width = 480, height = 550, top = 100, left = 200, location = no, resizable = no;"
-	        window.open(url, name, option);
-	    }
 		$(document).ready(function(){
 		     var nickname = $("#usernickname").val();
 		     if(nickname != null){
@@ -35,21 +26,11 @@
 	<div class="topCont">
 		 <a href="/board/Mainpage.do" onClick="">
 		 <img src="/images/1.jpg"></a>
-		<!-- 로그인 안되어있을때 -->
-		<div style="text-align:right" th:if="${userSession == null}">
-		 	<font face='나눔고딕'>
-			 	<a href="/user/userLogin.do">
-			 	<button class=btn>로그인</button></a>
-			 	<a href="/user/userSignUp.do">
-			 	<button class=btn>회원가입</button></a>
-			 	<a href="#" onclick="popup()">
-			 	<button class=btn>ID/PW찾기</button></a>
-		 	</font>
-		 </div>
+
 		 <!-- 로그인 했을때 -->
 		 <div style="text-align:right" th:if="${userSession != null}">
 		 	<font face='나눔고딕'>
-		 		<a href="/board/Mypage.do" onClick="">
+		 		<a href="/board/Mainpage.do" onClick="">
 					<img src="/images/user.jpg" width="50">
 				</a>
 				<label id="usernick" style="margin-right:30px"></label>
@@ -76,97 +57,45 @@
 			</div>
 		</div>
 		<div class="col-sm dr">
-		 	<div style="text-align:right" th:if="${userSession != null}">
+		 	<div style="text-align:right">
 			 	<font face='나눔고딕'>
 				 	<a href="/board/boardWrite.do">
 				 	<button type="button" class=btn>글쓰기</button></a>
-				 	<button class="btn" type="button">정렬▲▼</button>
-		 	</font>
-		 </div>
-			<div class="col-sm dr" style="margin-right:-10px" th:if="${userSession == null}">
-				<div style="text-align:right">
-					<button class="btn" type="button">정렬▲▼</button>
-				</div>
-			</div>
+		 		</font>
+		 	</div>
+
 		</div>
-		<div class="row rowCont">
+		<div class="row rowCont" th:if="${#lists.size(list)} > 0" th:each="list : ${list}">
 			<div class="col dr" style="width:90%">
 				<div style="width:100%;height:60%">
-					<div id="cont">
+					<div id="cont"  >
 						<div id="mainCont">
 							<div id="contUser">
-								<a href="/board/Mainpage." onClick="">
-									<img src="/images/2.jpg">
-								</a>
 							</div>
 							<div id="contImg" style="float: left;">
 								<img src="/images/img03.jpg" width="100"/>
 							</div>
 						</div>
 						<div id="subCont">
-							<span>
-								test5<br/>test6<br/>test7
+							<span th:text="${list.content}">
 							</span>
 						</div>
 					</div>
 					<div class="contBottom">
-						작성자 작성일
+						<button type="button" class=btn style="width:50px; height:32px; padding:0">편집</button>
+						<button type="button" class=btn style="width:50px; height:32px; padding:0">삭제</button>
+						<br/>
+						<span th:text="${userSession[0].usernickname}" style="margin-right:5px"></span>
+						<span th:text="${list.registDt}"></span>
 					</div>
 				</div>
+
 			</div>
+
 		</div>
-		<div class="row rowCont">
-			<div class="col dr" style="width:90%">
-				<div style="width:100%;height:60%">
-					<div id="cont">
-						<div id="mainCont">
-							<div id="contUser">
-								<a href="/board/Mainpage." onClick="">
-									<img src="/images/2.jpg">
-								</a>
-							</div>
-							<div id="contImg" style="float: left;">
-								<img src="/images/img04.jpg" width="100"/>
-							</div>
-						</div>
-						<div id="subCont">
-							<span>
-								test<br/>test3<br/>test4
-							</span>
-						</div>
-					</div>
-					<div class="contBottom">
-						작성자 작성일
-					</div>
+		<div class="row rowCont" style="width:90%" th:unless="${#lists.size(list)} > 0">
+				조회된 결과가 없습니다.
 				</div>
-			</div>
-		</div>
-		<div class="row rowCont">
-			<div class="col dr" style="width:90%">
-				<div style="width:100%;height:60%">
-					<div id="cont">
-						<div id="mainCont">
-							<div id="contUser">
-								<a href="/board/Mainpage." onClick="">
-									<img src="/images/2.jpg">
-								</a>
-							</div>
-							<div id="contImg" style="float: left;">
-								<img src="/images/img03.jpg" width="100"/>
-							</div>
-						</div>
-						<div id="subCont">
-							<span>
-								test<br/>test1<br/>test3
-							</span>
-						</div>
-					</div>
-					<div class="contBottom">
-						작성자 작성일
-					</div>
-				</div>
-			</div>
-		</div>
 
 		<div class="row">
 			<div class="col-sm dr" style="text-align:center">
